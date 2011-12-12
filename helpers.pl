@@ -1,7 +1,8 @@
-:- module(helpers, [ normalize/2, normalize/3, build/2, mult_vars/3, simplify/2, simplify/3, remove_from_list/3, stringify/3, replace_var/4, replace_var/6 ]).
+:- module(helpers, [ eq/2, normalize/2, normalize/3, build/2, mult_vars/3, simplify/2, simplify/3, remove_from_list/3, stringify/3, replace_var/4, replace_var/6 ]).
 :- use_module(library(chr)).
 
 :- chr_constraint 
+				eq/2, 
 				normalize/2, normalize/3, 
 				build/2, 
 				mult_vars/3, 
@@ -12,7 +13,15 @@
 				replace_var/4, replace_var/6.
 
 
-% normalize/2: normalizes a linear combination of linear terms and brings it in the form a*X+b*Y+...+c.
+% eq/2: brings an equation first in the form of eqz(a*X+b*Y+...+u, 0), second in eqz(Vars, Abs), 
+%   i.e. eqz([[X, a], [Y, b], ...], u]).
+%   The eqz/2 will be defined in the submodules.
+eq(X, 0) <=> normalize(X, VarsT, Abs), simplify(VarsT, Vars), eqz(Vars, Abs).
+eq(X, A) <=> number(A) | XA = X-A, eq(XA, 0).
+eq(X, Y) <=> normalize(X-(Y), XY), eq(XY, 0).
+
+
+% normalize/2: normalizes a linear combination of linear terms and brings it in the form a*X+b*Y+...+u.
 %   example: normalize(X, R).   -->   R = 1*X+0.
 %   example: normalize(2*(X+12-Y*2)/4, R).   -->   R = 0.5*X-1.0*Y+6.0.
 %   example: normalize(2*(X+12-Y*2)/4-X/2, R).   -->   R = -1.0*Y+6.0.
