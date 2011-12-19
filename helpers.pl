@@ -105,6 +105,7 @@ stringify(Vars, Abs, R) <=> build(Vars, VarsS), merge_var_abs(VarsS, Abs, RS), n
 
 % replace_var/4
 %   Note: replace_var(T, S, R, E) <=> S = R, E = T. % would bind S to R.
+%   example: replace_var(2*X+Y-1, X, 3*Y+4, R).   -->   R = 7*Y+7.
 replace_var(Term, S, R, Erg) <=> normalize(Term, Vars, Abs), replace_var(Vars, Abs, S, R, [], ErgN), normalize(ErgN, Erg).
 
 % replace_var/6
