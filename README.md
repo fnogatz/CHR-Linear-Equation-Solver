@@ -1,4 +1,4 @@
-# Linear Equation Solving using Constraint Handling Rules
+# Linear Equation Solving using CHR
 
 This project implements a constraint solver written in [Constraint Handling Rules](https://dtai.cs.kuleuven.be/CHR/) (CHR). It supports two solving strategies:
 
